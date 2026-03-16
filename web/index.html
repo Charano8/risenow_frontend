@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RiseNow | Web</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Splash Screen -->
+    <div id="splash-screen" class="screen active">
+        <div class="container" style="justify-content: center; align-items: center;">
+            <div class="logo-circle"
+                style="width: 120px; height: 120px; background: var(--glass-white); border: 2px solid var(--glass-border); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-bottom: 24px;">
+                <i class="fas fa-sun" style="font-size: 48px; color: var(--primary-gradient-end);"></i>
+            </div>
+            <h1>RiseNow</h1>
+            <p>Consistency is key to discipline.</p>
+        </div>
+    </div>
+
+    <!-- Login Screen -->
+    <div id="login-screen" class="screen">
+        <div class="container">
+            <div style="margin-top: 80px;">
+                <h1>Welcome Back</h1>
+                <p>Login to continue your journey</p>
+            </div>
+
+            <div style="margin-top: 60px;">
+                <div style="margin-bottom: 16px;">
+                    <label
+                        style="display: block; margin-bottom: 8px; font-size: 14px; color: var(--text-secondary);">Email
+                        address</label>
+                    <input type="email" id="login-email" class="glass-input" placeholder="Enter your email">
+                </div>
+                <div style="margin-bottom: 32px;">
+                    <label
+                        style="display: block; margin-bottom: 8px; font-size: 14px; color: var(--text-secondary);">Password</label>
+                    <input type="password" id="login-password" class="glass-input" placeholder="Enter your password">
+                </div>
+                <button id="login-btn" class="primary-btn">Log In</button>
+                <p id="go-to-forgot-password" style="text-align: center; margin-top: 16px; cursor: pointer; color: var(--primary-gradient-end); font-size: 14px;">Forgot Password?</p>
+            </div>
+            <div class="spacer"></div>
+            <p style="text-align: center; margin-bottom: 40px;">Don't have an account? <span id="go-to-register"
+                    style="color: var(--primary-gradient-end); cursor: pointer;">Sign Up</span></p>
+        </div>
+    </div>
+
+    <!-- Forgot Password Screen -->
+    <div id="forgot-password-screen" class="screen">
+        <div class="container">
+            <div style="display: flex; align-items: center; margin-top: 40px;">
+                <i class="fas fa-arrow-left forgot-back" style="cursor: pointer; margin-right: 16px;"></i>
+                <h1>Reset Password</h1>
+            </div>
+            <p style="margin-top: 8px;">Enter your email to receive an OTP.</p>
+
+            <div style="margin-top: 40px;">
+                <label style="display: block; margin-bottom: 12px; color: var(--text-secondary);">Email address</label>
+                <input type="email" id="forgot-email" class="glass-input" placeholder="Enter your email">
+            </div>
+
+            <button id="send-otp-btn" class="primary-btn" style="margin-top: 32px;">Send OTP</button>
+            <div class="spacer"></div>
+        </div>
+    </div>
+
+    <!-- Verify OTP Screen -->
+    <div id="verify-otp-screen" class="screen">
+        <div class="container">
+            <div style="display: flex; align-items: center; margin-top: 40px;">
+                <i class="fas fa-arrow-left verify-otp-back" style="cursor: pointer; margin-right: 16px;"></i>
+                <h1>Verify OTP</h1>
+            </div>
+            <p style="margin-top: 8px;">Enter the 6-digit code sent to your email.</p>
+
+            <div style="margin-top: 40px;">
+                <label style="display: block; margin-bottom: 12px; color: var(--text-secondary);">OTP Code</label>
+                <input type="text" id="otp-input" class="glass-input" placeholder="Enter 6-digit OTP" maxlength="6">
+            </div>
+
+            <button id="verify-otp-btn" class="primary-btn" style="margin-top: 32px;">Verify OTP</button>
+            <div class="spacer"></div>
+        </div>
+    </div>
+
+    <!-- Reset Password Screen -->
+    <div id="reset-password-screen" class="screen">
+        <div class="container">
+            <div style="display: flex; align-items: center; margin-top: 40px;">
+                <h1>New Password</h1>
+            </div>
+            <p style="margin-top: 8px;">Create a strong new password.</p>
+
+            <div style="margin-top: 40px;">
+                <div style="margin-bottom: 24px;">
+                    <label style="display: block; margin-bottom: 12px; color: var(--text-secondary);">New Password</label>
+                    <input type="password" id="new-password" class="glass-input" placeholder="Enter new password">
+                </div>
+                <div>
+                    <label style="display: block; margin-bottom: 12px; color: var(--text-secondary);">Confirm Password</label>
+                    <input type="password" id="confirm-new-password" class="glass-input" placeholder="Confirm new password">
+                </div>
+            </div>
+
+            <button id="update-password-btn" class="primary-btn" style="margin-top: 32px;">Update Password</button>
+            <div class="spacer"></div>
+        </div>
+    </div>
+
+    <!-- Register Screen -->
+    <div id="register-screen" class="screen">
+        <div class="container">
+            <div style="margin-top: 60px;">
+                <h1>Create Account</h1>
+                <p>Start your consistency journey today</p>
+            </div>
+
+            <div style="margin-top: 40px;">
+                <div style="margin-bottom: 16px;">
+                    <label
+                        style="display: block; margin-bottom: 8px; font-size: 14px; color: var(--text-secondary);">Username</label>
+                    <input type="text" id="register-username" class="glass-input" placeholder="Enter your username">
+                </div>
+                <div style="margin-bottom: 16px;">
+                    <label
+                        style="display: block; margin-bottom: 8px; font-size: 14px; color: var(--text-secondary);">Email
+                        address</label>
+                    <input type="email" id="register-email" class="glass-input" placeholder="Enter your email">
+                </div>
+                <div style="margin-bottom: 32px;">
+                    <label
+                        style="display: block; margin-bottom: 8px; font-size: 14px; color: var(--text-secondary);">Password</label>
+                    <input type="password" id="register-password" class="glass-input" placeholder="Create a password">
+                </div>
+                <button id="register-btn" class="primary-btn">Sign Up</button>
+            </div>
+            <div class="spacer"></div>
+            <p style="text-align: center; margin-bottom: 40px;">Already have an account? <span id="go-to-login"
+                    style="color: var(--primary-gradient-end); cursor: pointer;">Log In</span></p>
+        </div>
+    </div>
+
+    <!-- Home Screen (Dashboard) -->
+    <div id="home-screen" class="screen">
+        <div class="container" style="padding-bottom: 120px;">
+            <!-- Header Section -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 40px;">
+                <div>
+                    <h1 id="home-greeting">Good morning</h1>
+                    <p id="home-subgreeting" style="color: var(--text-secondary);">Ready for tomorrow?</p>
+                </div>
+                <div id="home-profile-btn"
+                    style="width: 48px; height: 48px; background: var(--glass-white); border: 1px solid var(--glass-border); border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer;">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+
+            <!-- Identity Status Card -->
+            <div class="glass-card" style="margin-top: 24px; padding: 24px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-bolt" style="color: var(--primary-gradient-start); font-size: 14px;"></i>
+                    <span style="font-size: 12px; font-weight: 600; color: var(--primary-gradient-start); letter-spacing: 1px;">CURRENT IDENTITY</span>
+                </div>
+                <div style="margin-top: 16px;">
+                    <h2 id="home-identity-statement" style="font-size: 20px; line-height: 1.4;">"I am a disciplined leader who takes action."</h2>
+                </div>
+            </div>
+
+            <!-- Alarm Discovery Section -->
+            <div style="margin-top: 32px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                    <h2 style="color: var(--primary-gradient-end); margin-bottom: 0;">Next Alarm</h2>
+                    <p id="home-next-alarm-day" style="margin-bottom: 4px;">Tomorrow</p>
+                </div>
+                <div id="home-next-alarm-container" style="margin-top: 16px;">
+                    <div style="display: flex; align-items: baseline; gap: 8px;">
+                        <span id="home-next-alarm-time" style="font-size: 64px; font-weight: 700;">06:30</span>
+                        <span id="home-next-alarm-period" style="font-size: 24px; color: var(--text-secondary);">AM</span>
+                    </div>
+                    <p id="home-next-alarm-countdown" style="color: var(--primary-gradient-start); margin-top: 4px;">10h 15m left</p>
+                </div>
+            </div>
+
+            <!-- Stats Row -->
+            <div style="margin-top: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div class="glass-card" style="padding: 20px; height: 120px; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-bolt" style="color: var(--text-secondary); font-size: 14px;"></i>
+                        <span style="font-size: 14px;">Streak</span>
+                    </div>
+                    <h2 id="home-streak-val" style="font-size: 32px; margin: 0;">5</h2>
+                </div>
+                <div class="glass-card" style="padding: 20px; height: 120px; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-trending-up" style="color: var(--text-secondary); font-size: 14px;"></i>
+                        <span style="font-size: 14px;">Wake %</span>
+                    </div>
+                    <h2 id="home-wake-val" style="font-size: 32px; margin: 0;">85%</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alarms Screen -->
+    <div id="alarms-screen" class="screen">
+        <div class="container" style="padding-bottom: 120px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 40px;">
+                <h1>Alarms</h1>
+                <div id="add-alarm-header-btn"
+                    style="width: 48px; height: 48px; background: var(--glass-white); border: 1px solid var(--glass-border); border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer;">
+                    <i class="fas fa-plus"></i>
+                </div>
+            </div>
+
+            <div id="alarms-list" style="margin-top: 32px; display: flex; flex-direction: column; gap: 16px;">
+                <!-- Alarm items will be injected here -->
+            </div>
+
+            <div style="margin-top: 40px; text-align: center; padding: 0 20px;">
+                <p style="font-style: italic;">"Discipline is choosing between what you want now and what you want
+                    most."</p>
+            </div>
+        </div>
+
+        <!-- FAB Add Button -->
+        <div id="add-alarm-fab"
+            style="position: fixed; bottom: 100px; right: 24px; width: 64px; height: 64px; background: linear-gradient(90deg, var(--primary-gradient-start), var(--primary-gradient-end)); border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 8px 20px rgba(0,0,0,0.3); cursor: pointer; z-index: 100;">
+            <i class="fas fa-plus" style="font-size: 24px;"></i>
+        </div>
+    </div>
+
+    <!-- Create Alarm Screen -->
+    <div id="create-alarm-screen" class="screen">
+        <div class="container">
+            <div style="display: flex; align-items: center; margin-top: 40px;">
+                <i class="fas fa-arrow-left nav-back" style="cursor: pointer; margin-right: 16px;"></i>
+                <h1>Set Alarm</h1>
+            </div>
+
+            <div
+                style="display: flex; justify-content: center; margin-top: 60px; font-size: 64px; font-weight: 700; gap: 10px;">
+                <div id="time-picker"
+                    style="display: flex; align-items: center; gap: 16px; background: var(--glass-white); padding: 20px 40px; border-radius: 32px; border: 1px solid var(--glass-border);">
+                    <input type="time" id="alarm-time-input"
+                        style="background: transparent; border: none; color: white; font-size: 48px; font-family: inherit; font-weight: 700; outline: none; cursor: pointer;">
+                </div>
+            </div>
+
+            <div style="margin-top: 40px;">
+                <div style="margin-bottom: 24px;">
+                    <label style="display: block; margin-bottom: 12px; color: var(--text-secondary);">Label
+                        (Intent)</label>
+                    <input type="text" id="alarm-label-input" class="glass-input" placeholder="e.g., Rise and Shine">
+                </div>
+                <div>
+                    <label style="display: block; margin-bottom: 12px; color: var(--text-secondary);">Frequency</label>
+                    <select id="alarm-frequency-input" class="glass-input" style="appearance: none;">
+                        <option value="Everyday">Everyday</option>
+                        <option value="Once">Once</option>
+                        <option value="Mon, Wed, Fri">Mon, Wed, Fri</option>
+                        <option value="Tue, Thu">Tue, Thu</option>
+                        <option value="Sat, Sun">Weekend</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="spacer"></div>
+            <button id="save-alarm-btn" class="primary-btn" style="margin-bottom: 40px;">Confirm Alarm</button>
+        </div>
+    </div>
+
+    <!-- Stats Screen -->
+    <div id="stats-screen" class="screen">
+        <div class="container" style="padding-bottom: 120px;">
+            <div style="margin-top: 40px;">
+                <h1>Analytics</h1>
+            </div>
+
+            <div class="glass-card" style="margin-top: 32px; padding: 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div>
+                        <p style="font-size: 12px; font-weight: 500;">Wake Consistency</p>
+                        <h1 style="font-size: 42px; margin: 8px 0;">85%</h1>
+                    </div>
+                    <div
+                        style="width: 40px; height: 40px; background: rgba(76, 175, 80, 0.1); border-radius: 50%; display: flex; justify-content: center; align-items: center;">
+                        <i class="fas fa-trending-up" style="color: var(--success-green);"></i>
+                    </div>
+                </div>
+                <div
+                    style="width: 100%; height: 6px; background: var(--glass-white); border-radius: 3px; overflow: hidden; margin-top: 16px;">
+                    <div
+                        style="width: 85%; height: 100%; background: linear-gradient(90deg, var(--primary-gradient-start), var(--primary-gradient-end));">
+                    </div>
+                </div>
+                <p style="margin-top: 16px; font-size: 12px;">Top 5% of users this week</p>
+            </div>
+
+            <div class="glass-card" style="margin-top: 24px; padding: 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2>Weekly Performance</h2>
+                    <p style="font-size: 12px;">This Week <i class="fas fa-chevron-down"></i></p>
+                </div>
+                <div
+                    style="margin-top: 32px; height: 120px; display: flex; align-items: flex-end; justify-content: space-between;">
+                    <div class="bar-container"
+                        style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                        <div
+                            style="width: 6px; height: 60px; background: var(--primary-gradient-start); border-radius: 3px;">
+                        </div>
+                        <span style="font-size: 10px; color: var(--text-disabled);">M</span>
+                    </div>
+                    <div class="bar-container"
+                        style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                        <div
+                            style="width: 6px; height: 80px; background: var(--primary-gradient-start); border-radius: 3px;">
+                        </div>
+                        <span style="font-size: 10px; color: var(--text-disabled);">T</span>
+                    </div>
+                    <div class="bar-container"
+                        style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                        <div
+                            style="width: 6px; height: 40px; background: var(--primary-gradient-start); border-radius: 3px;">
+                        </div>
+                        <span style="font-size: 10px; color: var(--text-disabled);">W</span>
+                    </div>
+                    <div class="bar-container"
+                        style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                        <div
+                            style="width: 6px; height: 90px; background: var(--primary-gradient-start); border-radius: 3px;">
+                        </div>
+                        <span style="font-size: 10px; color: var(--text-disabled);">T</span>
+                    </div>
+                    <div class="bar-container"
+                        style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                        <div
+                            style="width: 6px; height: 70px; background: var(--primary-gradient-start); border-radius: 3px;">
+                        </div>
+                        <span style="font-size: 10px; color: var(--text-disabled);">F</span>
+                    </div>
+                    <div class="bar-container"
+                        style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                        <div style="width: 6px; height: 30px; background: var(--glass-white); border-radius: 3px;">
+                        </div>
+                        <span style="font-size: 10px; color: var(--text-disabled);">S</span>
+                    </div>
+                    <div class="bar-container"
+                        style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                        <div style="width: 6px; height: 20px; background: var(--glass-white); border-radius: 3px;">
+                        </div>
+                        <span style="font-size: 10px; color: var(--text-disabled);">S</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div class="glass-card"
+                    style="padding: 24px; height: 160px; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div
+                        style="width: 40px; height: 40px; background: var(--glass-white); border-radius: 12px; display: flex; justify-content: center; align-items: center;">
+                        <i class="fas fa-clock" style="color: var(--primary-gradient-start);"></i>
+                    </div>
+                    <div>
+                        <h2 style="font-size: 24px; margin: 0;">06:30 AM</h2>
+                        <p style="font-size: 12px;">Avg. Wake Time</p>
+                    </div>
+                </div>
+                <div class="glass-card"
+                    style="padding: 24px; height: 160px; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div
+                        style="width: 40px; height: 40px; background: var(--glass-white); border-radius: 12px; display: flex; justify-content: center; align-items: center;">
+                        <i class="fas fa-bolt" style="color: var(--primary-gradient-start);"></i>
+                    </div>
+                    <div>
+                        <h2 style="font-size: 24px; margin: 0;">5</h2>
+                        <p style="font-size: 12px;">Current Streak</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Weekly Reflection Screen -->
+    <div id="weekly-reflection-screen" class="screen">
+        <div class="container" style="padding-bottom: 120px;">
+            <div style="display: flex; align-items: center; margin-top: 40px;">
+                <i class="fas fa-arrow-left reflection-back" style="cursor: pointer; margin-right: 16px;"></i>
+                <h1>Weekly Reflection</h1>
+            </div>
+
+            <div style="margin-top: 32px;">
+                <h1 style="font-size: 48px; margin: 0;">Week 12</h1>
+                <p>Mar 08 - Mar 14</p>
+            </div>
+
+            <div style="margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div class="glass-card"
+                    style="padding: 20px; height: 160px; display: flex; flex-direction: column; justify-content: space-between;">
+                    <i class="fas fa-calendar" style="color: var(--primary-gradient-start); font-size: 20px;"></i>
+                    <div>
+                        <h2 id="reflection-days-woke" style="font-size: 32px; margin: 0;">5/7</h2>
+                        <p style="font-size: 12px;">Days Woke Up</p>
+                    </div>
+                </div>
+                <div class="glass-card"
+                    style="padding: 20px; height: 160px; display: flex; flex-direction: column; justify-content: space-between;">
+                    <i class="fas fa-trending-up" style="color: var(--success-green); font-size: 20px;"></i>
+                    <div>
+                        <h2 id="reflection-consistency" style="font-size: 32px; margin: 0;">+12%</h2>
+                        <p style="font-size: 12px;">Consistency</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 40px;">
+                <p style="letter-spacing: 1px; font-weight: 600; font-size: 12px; margin-bottom: 16px;">HIGHLIGHTS</p>
+                <div class="glass-card" style="padding: 24px; border-left: 4px solid var(--success-green);">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                        <i class="fas fa-bookmark" style="color: var(--success-green);"></i>
+                        <span style="font-weight: 600;">Best Streak</span>
+                    </div>
+                    <p>You hit a 5-day streak this week! Keep it up for your personal best.</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 40px;">
+                <p style="letter-spacing: 1px; font-weight: 600; font-size: 12px; margin-bottom: 16px;">REFLECTION</p>
+                <div id="open-reflection-btn" class="glass-card" style="padding: 24px; cursor: pointer;">
+                    <p style="font-size: 10px; font-weight: 600; margin-bottom: 8px;">LAST RECORDED</p>
+                    <p id="reflection-text-display"
+                        style="font-style: italic; color: var(--text-primary); line-height: 28px; font-size: 18px;">"I
+                        felt more energetic this week because of early wake up times."</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reflection Dialog (Modal) -->
+    <div id="reflection-dialog"
+        style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; padding: 24px;">
+        <div class="glass-card" style="width: 100%; max-width: 400px; padding: 24px; background: #1a1f2c;">
+            <h2>Weekly Reflection</h2>
+            <textarea id="reflection-input" class="glass-input" style="height: 150px; margin: 20px 0; resize: none;"
+                placeholder="How was your week?"></textarea>
+            <div style="display: flex; justify-content: flex-end; gap: 16px;">
+                <button id="cancel-reflection-btn"
+                    style="background: transparent; border: none; color: var(--text-secondary); cursor: pointer; font-weight: 600;">Cancel</button>
+                <button id="save-reflection-btn"
+                    style="background: transparent; border: none; color: var(--primary-gradient-start); cursor: pointer; font-weight: 600;">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Screen -->
+    <div id="profile-screen" class="screen">
+        <div class="container">
+            <div style="margin-top: 40px;">
+                <h1>Profile</h1>
+            </div>
+
+            <div class="glass-card" style="margin-top: 32px; padding: 32px; text-align: center;">
+                <div
+                    style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end)); border-radius: 50%; margin: 0 auto 16px; display: flex; justify-content: center; align-items: center;">
+                    <i class="fas fa-user" style="font-size: 32px;"></i>
+                </div>
+                <h2 id="user-name-display">User Name</h2>
+                <p id="user-identity-display">Professional</p>
+            </div>
+
+            <div style="margin-top: 32px; display: flex; flex-direction: column; gap: 12px;">
+                <div class="glass-card"
+                    style="padding: 20px; display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <i class="fas fa-cog" style="color: var(--text-secondary);"></i>
+                        <span>Preferences</span>
+                    </div>
+                    <i class="fas fa-chevron-right" style="font-size: 12px; color: var(--text-disabled);"></i>
+                </div>
+                <div id="nav-to-reflection" class="glass-card"
+                    style="padding: 20px; display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <i class="fas fa-history" style="color: var(--text-secondary);"></i>
+                        <span>Weekly Reflection</span>
+                    </div>
+                    <i class="fas fa-chevron-right" style="font-size: 12px; color: var(--text-disabled);"></i>
+                </div>
+            </div>
+
+            <div class="spacer"></div>
+            <button id="logout-btn" class="primary-btn"
+                style="background: var(--glass-white); border: 1px solid var(--danger-red); color: var(--danger-red); box-shadow: none; margin-bottom: 120px;">Sign
+                Out</button>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav id="bottom-nav" class="glass-nav"
+        style="position: fixed; bottom: 0; left: 0; right: 0; height: 80px; display: none; justify-content: space-around; align-items: center; z-index: 1000;">
+        <div class="nav-item active" data-screen="home-screen"
+            style="display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--primary-gradient-end); cursor: pointer;">
+            <i class="fas fa-home"></i>
+            <span style="font-size: 12px;">Home</span>
+        </div>
+        <div class="nav-item" data-screen="alarms-screen"
+            style="display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-disabled); cursor: pointer;">
+            <i class="fas fa-clock"></i>
+            <span style="font-size: 12px;">Alarms</span>
+        </div>
+        <div class="nav-item" data-screen="stats-screen"
+            style="display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-disabled); cursor: pointer;">
+            <i class="fas fa-chart-bar"></i>
+            <span style="font-size: 12px;">Stats</span>
+        </div>
+        <div class="nav-item" data-screen="profile-screen"
+            style="display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-disabled); cursor: pointer;">
+            <i class="fas fa-user"></i>
+            <span style="font-size: 12px;">Profile</span>
+        </div>
+    </nav>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

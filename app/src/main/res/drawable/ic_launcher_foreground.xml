@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- Ground Line (White, Minimalist) -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M30,68 L78,68" />
+
+    <!-- Sunrise (Golden Sun, Semi-circle) -->
+    <!-- M x,y starts at ground. A rx,ry x-axis-rotation large-arc-flag sweep-flag x,y -->
+    <path
+        android:fillColor="#FBBF24"
+        android:pathData="M38,68 A16,16 0 0,1 70,68 Z" />
+
+    <!-- Sun Rays (Golden, spaced equally) -->
+    <path
+        android:strokeColor="#FBBF24"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M34,57 L30,53 M54,48 L54,42 M74,57 L78,53" />
+
+    <!-- Growth Arrow (Cyan, Modern Pointy Arrow) -->
+    <!-- Centered at x=54. Base at y=45. Tip at y=25. -->
+    <path
+        android:fillColor="#22D3EE"
+        android:pathData="M54,23 L44,35 H49 V46 H59 V35 H64 Z" />
+
+</vector>
