@@ -288,6 +288,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Guest login logic
+    const guestBtn = document.getElementById('continue-as-guest');
+    if (guestBtn) {
+        guestBtn.addEventListener('click', () => {
+            currentUser = {
+                user_id: 'guest',
+                username: 'Guest',
+                name: 'Guest User',
+                email: 'guest@example.com',
+                identity_statement: 'I am a guest exploring the application.',
+                streak: 0,
+                wake_consistency: '--'
+            };
+            localStorage.setItem('riseNowUser', JSON.stringify(currentUser));
+            initApp();
+        });
+    }
+
     // Register logic
     document.getElementById('register-btn').addEventListener('click', async () => {
         const user = document.getElementById('register-username').value;
