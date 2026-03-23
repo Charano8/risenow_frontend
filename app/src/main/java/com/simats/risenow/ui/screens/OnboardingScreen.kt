@@ -406,7 +406,8 @@ fun OnboardingScreen(
                                         Toast.makeText(context, response.body()?.message ?: "User registered successfully", Toast.LENGTH_SHORT).show()
                                         onRegistrationSuccess()
                                     } else {
-                                        Toast.makeText(context, "Registration failed: ${response.code()}", Toast.LENGTH_SHORT).show()
+                                        val errorMsg = if (response.code() == 409) "Email already registered. Please log in." else "Registration failed: ${response.code()}"
+                                        Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show()
                                     }
                                 }
 
