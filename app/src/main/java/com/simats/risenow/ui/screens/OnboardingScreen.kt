@@ -527,6 +527,17 @@ fun OnboardingScreen(
                     PrimaryButton(text = if (currentPageIndex == 4) "Confirm Identity" else "Continue", onClick = { if (canProceed) currentPageIndex++ }, modifier = Modifier.fillMaxWidth())
                 }
             }
+
+            if (currentPageIndex < 3) {
+                Spacer(modifier = Modifier.height(24.dp))
+                Text(
+                    text = "Powered by SIMATS ENGINEERING",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = Color.Gray.copy(alpha = 0.7f),
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
+            }
     }
 }
 }

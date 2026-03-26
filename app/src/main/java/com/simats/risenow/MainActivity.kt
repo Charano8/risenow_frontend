@@ -208,7 +208,7 @@ class MainActivity : ComponentActivity() {
                                         AlarmUtils.setOnboardingComplete(this@MainActivity, true)
                                         // Save user data locally
                                         AlarmUtils.saveUserData(this@MainActivity, name, identity, statement, userId = id)
-                                        navigateTo("home", clearStack = true)
+                                        navigateTo("subscription", clearStack = true)
                                     },
                                     onNavigateToSignup = {
                                         initialOnboardingPage = 6
@@ -228,7 +228,7 @@ class MainActivity : ComponentActivity() {
                                         AlarmUtils.saveUserData(this@MainActivity, name, identity, statement, if (age == -1) null else age)
                                         AlarmUtils.setLoginStatus(this@MainActivity, true)
                                         AlarmUtils.setOnboardingComplete(this@MainActivity, true)
-                                        navigateTo("home", clearStack = true)
+                                        navigateTo("subscription", clearStack = true)
                                     },
                                     onNavigateToLogin = {
                                         AlarmUtils.setOnboardingComplete(this@MainActivity, true)
@@ -237,6 +237,9 @@ class MainActivity : ComponentActivity() {
                                     onRegistrationSuccess = {
                                         navigateTo("login", clearStack = true)
                                     }
+                                )
+                                "subscription" -> SubscriptionScreen(
+                                    onNavigateHome = { navigateTo("home", clearStack = true) }
                                 )
                                 "home" -> HomeScreen(
                                     userName = userName,
