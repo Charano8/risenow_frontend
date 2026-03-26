@@ -150,7 +150,7 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "If you have any questions or concerns regarding our privacy policy, please contact us at:\ncharandevalapalli@gmail.com",
+                        text = "If you have any questions or concerns regarding our privacy policy, please contact us.",
                         style = MaterialTheme.typography.bodyMedium,
                         color = TextSecondary
                     )
