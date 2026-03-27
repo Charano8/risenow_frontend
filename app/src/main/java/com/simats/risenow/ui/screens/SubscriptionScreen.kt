@@ -28,11 +28,215 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.simats.risenow.ui.components.AppBackground
 import com.simats.risenow.ui.theme.*
+import android.app.Activity
+import android.content.Context
+import android.util.Log
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.remember
+import com.android.billingclient.api.*
+
+class BillingManager(private val context: Context, private val onSubscriptionSuccessCallback: () -> Unit) : PurchasesUpdatedListener {
+
+    companion object {
+        private const val TAG = "BillingManager"
+        private const val SUBSCRIPTION_SKU = "univault_premium_subscription"
+        private const val TEST_SUBSCRIPTION_SKU = "android.test.purchased"
+    }
+
+    private var billingClient: BillingClient
+    var productDetails: ProductDetails? = null
+
+    init {
+        billingClient = BillingClient.newBuilder(context)
+            .setListener(this)
+            .enablePendingPurchases()
+            .build()
+
+        setupBillingClient()
+    }
+
+    private fun setupBillingClient() {
+        billingClient.startConnection(object : BillingClientStateListener {
+            override fun onBillingSetupFinished(billingResult: BillingResult) {
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                    Log.d(TAG, "Billing setup finished successfully")
+                    querySubscriptionDetails()
+                } else {
+                    Log.e(TAG, "Billing setup failed: ${billingResult.debugMessage}")
+                }
+            }
+            override fun onBillingServiceDisconnected() {
+                Log.d(TAG, "Billing service disconnected")
+            }
+        })
+    }
+
+    private fun querySubscriptionDetails() {
+        querySpecificProduct(SUBSCRIPTION_SKU, BillingClient.ProductType.SUBS) { success ->
+            if (!success) {
+                Log.w(TAG, "Real subscription product not found, trying test products...")
+                querySpecificProduct(TEST_SUBSCRIPTION_SKU, BillingClient.ProductType.INAPP) { testSuccess ->
+                    if (!testSuccess) {
+                        Log.e(TAG, "Both real and test products failed")
+                    }
+                }
+            }
+        }
+    }
+
+    private fun querySpecificProduct(productId: String, productType: String, callback: (Boolean) -> Unit) {
+        val productList = listOf(
+            QueryProductDetailsParams.Product.newBuilder()
+                .setProductId(productId)
+                .setProductType(productType)
+                .build()
+        )
+
+        val params = QueryProductDetailsParams.newBuilder()
+            .setProductList(productList)
+            .build()
+
+        billingClient.queryProductDetailsAsync(params) { billingResult, productDetailsList ->
+            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                if (productDetailsList.isNotEmpty()) {
+                    productDetails = productDetailsList[0]
+                    Log.d(TAG, "Product details retrieved successfully for: $productId")
+                    callback(true)
+                } else {
+                    Log.e(TAG, "No product details found for: $productId")
+                    callback(false)
+                }
+            } else {
+                Log.e(TAG, "Failed to query product details for $productId: ${billingResult.debugMessage}")
+                callback(false)
+            }
+        }
+    }
+
+    fun launchSubscriptionFlow(activity: Activity) {
+        if (!billingClient.isReady) {
+            Log.e(TAG, "Billing client is not ready")
+            Toast.makeText(context, "Billing service not ready. Please try again.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (productDetails != null) {
+            val productDetailsParamsList = if (productDetails!!.productType == BillingClient.ProductType.SUBS) {
+                val subscriptionOfferDetails = productDetails!!.subscriptionOfferDetails
+                if (subscriptionOfferDetails.isNullOrEmpty()) {
+                    Log.e(TAG, "No subscription offers available")
+                    Toast.makeText(context, "No subscription offers available", Toast.LENGTH_SHORT).show()
+                    return
+                }
+
+                val selectedOffer = subscriptionOfferDetails[0]
+                listOf(
+                    BillingFlowParams.ProductDetailsParams.newBuilder()
+                        .setProductDetails(productDetails!!)
+                        .setOfferToken(selectedOffer.offerToken)
+                        .build()
+                )
+            } else {
+                listOf(
+                    BillingFlowParams.ProductDetailsParams.newBuilder()
+                        .setProductDetails(productDetails!!)
+                        .build()
+                )
+            }
+
+            val billingFlowParams = BillingFlowParams.newBuilder()
+                .setProductDetailsParamsList(productDetailsParamsList)
+                .build()
+
+            val billingResult = billingClient.launchBillingFlow(activity, billingFlowParams)
+
+            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                Log.d(TAG, "Billing flow launched successfully")
+            } else {
+                Log.e(TAG, "Failed to launch billing flow: ${billingResult.debugMessage}")
+                Toast.makeText(context, "Failed to start subscription process: ${billingResult.debugMessage}", Toast.LENGTH_LONG).show()
+            }
+        } else {
+            Log.e(TAG, "No product details available")
+            Toast.makeText(context, "Subscription not available. Please try again.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onPurchasesUpdated(billingResult: BillingResult, purchases: MutableList<Purchase>?) {
+        when (billingResult.responseCode) {
+            BillingClient.BillingResponseCode.OK -> {
+                purchases?.forEach { handlePurchase(it) }
+            }
+            BillingClient.BillingResponseCode.USER_CANCELED -> {
+                Toast.makeText(context, "Purchase canceled", Toast.LENGTH_SHORT).show()
+            }
+            BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED -> {
+                Toast.makeText(context, "You already have an active subscription", Toast.LENGTH_SHORT).show()
+                onSubscriptionSuccessCallback()
+            }
+            BillingClient.BillingResponseCode.ITEM_UNAVAILABLE -> {
+                Toast.makeText(context, "Subscription unavailable. Please download app from Play Store for testing.", Toast.LENGTH_LONG).show()
+            }
+            BillingClient.BillingResponseCode.DEVELOPER_ERROR -> {
+                Toast.makeText(context, "Configuration error. Check Play Console setup.", Toast.LENGTH_LONG).show()
+            }
+            BillingClient.BillingResponseCode.SERVICE_UNAVAILABLE -> {
+                Toast.makeText(context, "Google Play services unavailable. Try again later.", Toast.LENGTH_SHORT).show()
+            }
+            else -> {
+                Toast.makeText(context, "Purchase failed (Code: ${billingResult.responseCode})", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun handlePurchase(purchase: Purchase) {
+        if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
+            if (!purchase.isAcknowledged) {
+                val acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
+                    .setPurchaseToken(purchase.purchaseToken)
+                    .build()
+
+                billingClient.acknowledgePurchase(acknowledgePurchaseParams) { billingResult ->
+                    if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                        onSubscriptionSuccess()
+                    }
+                }
+            } else {
+                onSubscriptionSuccess()
+            }
+        }
+    }
+
+    private fun onSubscriptionSuccess() {
+        Toast.makeText(context, "Subscription successful! Welcome to Premium!", Toast.LENGTH_LONG).show()
+        val sharedPref = context.getSharedPreferences("subscription_prefs", Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putBoolean("is_premium_user", true)
+            putLong("subscription_time", System.currentTimeMillis())
+            apply()
+        }
+        onSubscriptionSuccessCallback()
+    }
+
+    fun onDestroy() {
+        if (billingClient.isReady) {
+            billingClient.endConnection()
+        }
+    }
+}
 
 @Composable
 fun SubscriptionScreen(onNavigateHome: () -> Unit) {
     val context = LocalContext.current
     val scrollState = rememberScrollState()
+
+    val billingManager = remember { BillingManager(context, onNavigateHome) }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            billingManager.onDestroy()
+        }
+    }
 
     AppBackground {
         Column(
@@ -136,7 +340,12 @@ fun SubscriptionScreen(onNavigateHome: () -> Unit) {
             // Buttons
             Button(
                 onClick = {
-                    Toast.makeText(context, "Currently subscription is not available", Toast.LENGTH_SHORT).show()
+                    val activity = context as? Activity
+                    if (activity != null) {
+                        billingManager.launchSubscriptionFlow(activity)
+                    } else {
+                        Toast.makeText(context, "Unable to launch subscription from this context", Toast.LENGTH_SHORT).show()
+                    }
                 },
                 modifier = Modifier
                     .fillMaxWidth()

@@ -391,7 +391,8 @@ fun OnboardingScreen(
                     isLoading = isLoading,
                     onClick = { 
                         passwordError = isPasswordValid(password)
-                        if (email.isNotBlank() && password.isNotBlank() && passwordError == null) {
+                        val isEmailValid = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+                        if (email.isNotBlank() && isEmailValid && password.isNotBlank() && passwordError == null) {
                             isLoading = true
                             val request = RegisterRequest(
                                 name = name.ifBlank { "Champion" }, 
@@ -416,6 +417,8 @@ fun OnboardingScreen(
                                     Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
                                 }
                             })
+                        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() && email.isNotBlank()) {
+                            Toast.makeText(context, "Please enter a valid email address", Toast.LENGTH_SHORT).show()
                         } else if (passwordError == null) {
                             Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_SHORT).show()
                         }

@@ -149,7 +149,8 @@ fun LoginScreen(
                         text = "Log In",
                         isLoading = isLoading,
                         onClick = { 
-                            if (email.isNotBlank() && password.isNotBlank()) {
+                            val isEmailValid = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+                            if (email.isNotBlank() && isEmailValid && password.isNotBlank()) {
                                 isLoading = true
                                 val request = LoginRequest(email, password)
                                 RetrofitClient.instance.loginUser(request).enqueue(object : Callback<LoginResponse> {
@@ -174,6 +175,10 @@ fun LoginScreen(
                                         Toast.makeText(context, "Invalid email or password", Toast.LENGTH_SHORT).show()
                                     }
                                 })
+                            } else if (email.isNotBlank() && !isEmailValid) {
+                                Toast.makeText(context, "Please enter a valid email address", Toast.LENGTH_SHORT).show()
+                            } else if (email.isBlank() || password.isBlank()) {
+                                Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_SHORT).show()
                             }
                         },
                         modifier = Modifier.fillMaxWidth()

@@ -54,4 +54,6 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
+    implementation(libs.billing)
+    implementation(libs.billing.ktx)
 }

@@ -137,7 +137,8 @@ fun EnterEmailStep(
         text = "Send Reset Code",
         isLoading = isLoading,
         onClick = {
-            if (email.isNotBlank()) {
+            val isEmailValid = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+            if (email.isNotBlank() && isEmailValid) {
                 isLoading = true
                 val request = ForgotPasswordRequest(email)
                 RetrofitClient.instance.forgotPassword(request).enqueue(object : retrofit2.Callback<ForgotPasswordResponse> {
@@ -156,6 +157,8 @@ fun EnterEmailStep(
                         android.widget.Toast.makeText(context, "Error: ${t.message}", android.widget.Toast.LENGTH_SHORT).show()
                     }
                 })
+            } else if (email.isNotBlank() && !isEmailValid) {
+                android.widget.Toast.makeText(context, "Please enter a valid email address", android.widget.Toast.LENGTH_SHORT).show()
             }
         },
         modifier = Modifier.fillMaxWidth(),
